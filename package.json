@@ -1,0 +1,48 @@
+{
+    "name": "kaphein-js-collection",
+    "version": "0.1.0",
+    "description": "A set of collection classes and its utilities.",
+    "author": "Hydrawisk793 <hyw793@gmail.com>",
+    "license": "MIT",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "files": [
+        "dist"
+    ],
+    "keywords": [
+        "javascript",
+        "collection"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Hydrawisk793/kaphein-js-collection.git"
+    },
+    "bugs": {
+        "url": "https://github.com/Hydrawisk793/kaphein-js-collection/issues"
+    },
+    "homepage": "https://github.com/Hydrawisk793/kaphein-js-collection#readme",
+    "scripts": {
+        "lint": "tsc --project tsconfig.dts.json && eslint src/**/*.js",
+        "lint:fix": "npm run lint -- --fix",
+        "test": "mocha tests/index.test.js",
+        "build": "rm -rf dist && npm run lint && npm run test && webpack --mode production --config webpack.config.js",
+        "prepack": "npm install && npm run build"
+    },
+    "bundledDependencies": [],
+    "dependencies": {
+        "kaphein-js-type-trait": "~0.1.0"
+    },
+    "devDependencies": {
+        "bluebird": "^3.7.2",
+        "chai": "^4.3.3",
+        "copy-webpack-plugin": "^8.0.0",
+        "core-js": "^3.9.1",
+        "eslint": "^7.21.0",
+        "husky": "^2.7.0",
+        "mocha": "^8.3.2",
+        "typescript": "^4.2.3",
+        "webpack": "^5.25.0",
+        "webpack-cli": "^4.5.0",
+        "webpack-node-externals": "^2.5.2"
+    }
+}
