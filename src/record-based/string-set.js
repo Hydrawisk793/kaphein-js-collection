@@ -1,9 +1,8 @@
 var kapheinJsTypeTrait = require("kaphein-js-type-trait");
 var isDefinedAndNotNull = kapheinJsTypeTrait.isDefinedAndNotNull;
 var isString = kapheinJsTypeTrait.isString;
-var isArray = kapheinJsTypeTrait.isArray;
-var isIterable = kapheinJsTypeTrait.isIterable;
 
+var forOf = require("../for-of").forOf;
 var isSymbolSupported = require("../is-symbol-supported").isSymbolSupported;
 var _setToJSON = require("../to-json-impl")._setToJSON;
 
@@ -20,28 +19,20 @@ module.exports = (function ()
     {
         this.clear();
 
-        var iterable = arguments[0];
+        /** @type {Iterable<string>} */var iterable = arguments[0];
         if(isDefinedAndNotNull(iterable))
         {
-            if(isArray(iterable))
-            {
-                for(var i = 0; i < iterable.length; ++i)
+            forOf(
+                iterable,
+                /**
+                 *  @this {StringSet}
+                 */
+                function (value)
                 {
-                    this.add(iterable[i]);
-                }
-            }
-            else if(isIterable(iterable))
-            {
-                var iter = iterable[Symbol.iterator]();
-                for(var iterResult = iter.next(); !iterResult.done; iterResult = iter.next())
-                {
-                    this.add(iterResult.value);
-                }
-            }
-            else
-            {
-                throw new TypeError("The argument must be an iterable.");
-            }
+                    this.add(value);
+                },
+                this
+            );
         }
     }
 

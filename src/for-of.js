@@ -19,7 +19,7 @@ module.exports = (function ()
         var getIteratorFunctionKey = (_isSymbolSupported ? Symbol.iterator : arguments[3]);
         if(!(getIteratorFunctionKey in iterable))
         {
-            throw new TypeError("The first arguments must be an iterable object.");
+            throw new TypeError("'iterable' must be an iterable object.");
         }
 
         var thisArg = arguments[2];
