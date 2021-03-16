@@ -1,3 +1,6 @@
+var kapheinJsTypeTrait = require("kaphein-js-type-trait");
+var isArray = kapheinJsTypeTrait.isArray;
+
 var isSymbolSupported = require("./is-symbol-supported").isSymbolSupported;
 
 module.exports = (function ()
@@ -16,23 +19,37 @@ module.exports = (function ()
      */
     function forOf(iterable, callback)
     {
-        var getIteratorFunctionKey = (_isSymbolSupported ? Symbol.iterator : arguments[3]);
-        if(!(getIteratorFunctionKey in iterable))
-        {
-            throw new TypeError("'iterable' must be an iterable object.");
-        }
-
         var thisArg = arguments[2];
-        for(
-            var shouldMoveNext = true, i = iterable[getIteratorFunctionKey](), iR = i.next();
-            shouldMoveNext && !iR.done;
-            iR = i.next()
-        )
+        var shouldContinue = true;
+        var i;
+
+        if(isArray(iterable))
         {
-            shouldMoveNext = !callback.call(thisArg, iR.value, iterable);
+            for(i = 0; shouldContinue && i < iterable.length; ++i)
+            {
+                shouldContinue = !callback.call(thisArg, iterable[i], iterable);
+            }
+        }
+        else
+        {
+            var getIteratorFunctionKey = (_isSymbolSupported ? Symbol.iterator : arguments[3]);
+            if(!(getIteratorFunctionKey in iterable))
+            {
+                throw new TypeError("'iterable' must be an iterable object.");
+            }
+
+            var iR;
+            for(
+                i = iterable[getIteratorFunctionKey](), iR = i.next();
+                shouldContinue && !iR.done;
+                iR = i.next()
+            )
+            {
+                shouldContinue = !callback.call(thisArg, iR.value, iterable);
+            }
         }
 
-        return shouldMoveNext;
+        return shouldContinue;
     }
 
     return {
