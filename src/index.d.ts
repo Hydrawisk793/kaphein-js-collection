@@ -3,6 +3,7 @@ export * from "./equal-comparer";
 export * from "./queue";
 
 export * from "./for-of";
+export * from "./for-await-of";
 export * from "./coerce-to-array";
 export * from "./flatten";
 export * from "./set-extensions";
