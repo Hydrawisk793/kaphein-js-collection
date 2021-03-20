@@ -714,6 +714,35 @@ module.exports = (function ()
             return !this.find(value, RbTreeSearchTarget.equal).isNull();
         },
 
+        getFirst : function getFirst()
+        {
+            if(this.getElementCount() > 0)
+            {
+                var endIter = this.end();
+                var firstElemIter = this.begin();
+
+                if(!firstElemIter.equals(endIter))
+                {
+                    return firstElemIter.dereference();
+                }
+            }
+        },
+
+        getLast : function getLast()
+        {
+            if(this.getElementCount() > 0)
+            {
+                var endIter = this.end();
+                var lastElemIter = this.end();
+                lastElemIter.moveToPrevious();
+
+                if(!lastElemIter.equals(endIter))
+                {
+                    return lastElemIter.dereference();
+                }
+            }
+        },
+
         /**
          *  @param {T} element
          *  @returns {CppValueIterator<T>}

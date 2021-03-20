@@ -75,6 +75,10 @@ export declare class RbTreeSet<T> implements Set<T>
         value : T
     ) : boolean;
 
+    public getFirst() : T | undefined;
+
+    public getLast() : T | undefined;
+
     public add(
         value : T
     ) : this;
