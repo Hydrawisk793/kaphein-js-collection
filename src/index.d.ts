@@ -4,6 +4,7 @@ export * from "./queue";
 
 export * from "./for-of";
 export * from "./coerce-to-array";
+export * from "./flatten";
 export * from "./set-extensions";
 export * from "./array-like-iterator";
 export * from "./array-based";
