@@ -2,6 +2,7 @@ require("core-js");
 
 describe("kaphein-js-collection", function ()
 {
+    describe("forOf", require("./suites/for-of.test").bind(this));
     describe("coerceToArray", require("./suites/coerce-to-array.test").bind(this));
     describe("flatten", require("./suites/flatten.test").bind(this));
     describe("ArrayQueue", require("./suites/array-queue.test").bind(this));
