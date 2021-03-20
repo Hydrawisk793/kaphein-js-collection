@@ -1,5 +1,7 @@
 var kapheinJsTypeTrait = require("kaphein-js-type-trait");
+var isDefinedAndNotNull = kapheinJsTypeTrait.isDefinedAndNotNull;
 var isArray = kapheinJsTypeTrait.isArray;
+var isFunction = kapheinJsTypeTrait.isFunction;
 
 var isSymbolSupported = require("./is-symbol-supported").isSymbolSupported;
 
@@ -32,8 +34,23 @@ module.exports = (function ()
         }
         else
         {
-            var getIteratorFunctionKey = (_isSymbolSupported ? Symbol.iterator : arguments[3]);
-            if(!(getIteratorFunctionKey in iterable))
+            var getIteratorFunctionKey = arguments[3];
+            if(!isDefinedAndNotNull(getIteratorFunctionKey))
+            {
+                if(_isSymbolSupported)
+                {
+                    getIteratorFunctionKey = Symbol.iterator;
+                }
+                else
+                {
+                    throw new Error("The forth arugment must be specified because the environment does not support native ECMAScript 6 Symbol.");
+                }
+            }
+
+            if(
+                !(getIteratorFunctionKey in iterable)
+                || !isFunction(iterable[getIteratorFunctionKey])
+            )
             {
                 throw new TypeError("'iterable' must be an iterable object.");
             }
