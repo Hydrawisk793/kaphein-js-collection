@@ -1,7 +1,7 @@
 var kapheinJsTypeTrait = require("kaphein-js-type-trait");
 var isIterable = kapheinJsTypeTrait.isIterable;
 
-var forOf = require("../utils").forOf;
+var forOf = require("../for-of").forOf;
 var isSymbolSupported = require("../is-symbol-supported").isSymbolSupported;
 var arrayLikeIterator = require("../array-like-iterator");
 var ArrayLikePairIterator = arrayLikeIterator.ArrayLikePairIterator;

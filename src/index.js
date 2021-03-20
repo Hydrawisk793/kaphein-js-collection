@@ -1,6 +1,6 @@
 module.exports = Object.assign(
     {},
-    require("./utils"),
+    require("./for-of"),
     require("./set-extensions"),
     require("./array-like-iterator"),
     require("./array-based"),

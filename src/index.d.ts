@@ -2,7 +2,7 @@ export * from "./comparer";
 export * from "./equal-comparer";
 export * from "./queue";
 
-export * from "./utils";
+export * from "./for-of";
 export * from "./set-extensions";
 export * from "./array-like-iterator";
 export * from "./array-based";

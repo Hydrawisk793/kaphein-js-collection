@@ -2,7 +2,7 @@ var kapheinJsTypeTrait = require("kaphein-js-type-trait");
 var isIterable = kapheinJsTypeTrait.isIterable;
 
 var isSymbolSupported = require("./is-symbol-supported").isSymbolSupported;
-var forOf = require("./utils").forOf;
+var forOf = require("./for-of").forOf;
 
 module.exports = (function ()
 {
