@@ -107,7 +107,7 @@ module.exports = (function ()
         {
             this._head = null;
             this._tail = null;
-            this._elemCount = 0;
+            this.size = 0;
         },
 
         forEach : function forEach(callback)
