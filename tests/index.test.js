@@ -6,6 +6,7 @@ describe("kaphein-js-collection", function ()
     describe("forAwaitOf", require("./suites/for-await-of.test").bind(this));
     describe("coerceToArray", require("./suites/coerce-to-array.test").bind(this));
     describe("flatten", require("./suites/flatten.test").bind(this));
+    describe("setExtensions", require("./suites/set-extensions.test").bind(this));
     describe("ArrayQueue", require("./suites/array-queue.test").bind(this));
     describe("ListQueue", require("./suites/list-queue.test").bind(this));
     describe("RbTreeSet", require("./suites/rb-tree-set.test").bind(this));
