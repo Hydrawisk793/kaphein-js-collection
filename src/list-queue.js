@@ -2,7 +2,7 @@ var kapheinJsTypeTrait = require("kaphein-js-type-trait");
 var isIterable = kapheinJsTypeTrait.isIterable;
 
 var isSymbolSupported = require("./is-symbol-supported").isSymbolSupported;
-var forOf = require("./utils").forOf;
+var forOf = require("./for-of").forOf;
 
 module.exports = (function ()
 {
@@ -107,7 +107,7 @@ module.exports = (function ()
         {
             this._head = null;
             this._tail = null;
-            this._elemCount = 0;
+            this.size = 0;
         },
 
         forEach : function forEach(callback)

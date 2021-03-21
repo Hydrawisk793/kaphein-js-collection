@@ -1,7 +1,7 @@
-require("core-js");
 const { assert } = require("chai");
 
 const { StringKeyTrie } = require("../../src");
+const mapCommon = require("./map-common.test");
 
 module.exports = function ()
 {
@@ -19,31 +19,11 @@ module.exports = function ()
         return acc;
     }, {});
 
-    describe("constructor", function ()
-    {
-        it("should be empty on default", function ()
-        {
-            const trie = new StringKeyTrie();
-            assert.equal(trie.size, 0);
-        });
-
-        it("should add iterable pairs", function ()
-        {
-            const trie1 = new StringKeyTrie(Object.entries(map));
-            const trie2 = new StringKeyTrie();
-            Object.entries(map).forEach(function (pair)
-            {
-                trie2.set(pair[0], pair[1]);
-            });
-
-            assert.equal(trie1.size, Object.keys(map).length);
-            assert.equal(trie2.size, trie1.size);
-        });
-    });
+    (mapCommon.bind(this))(StringKeyTrie, [], _comparePairs, Object.entries(map), "StringKeyTrie");
 
     describe("hasPrefix", function ()
     {
-        it("should determine whether prefixes are exist", function ()
+        it("should determine whether prefixes are exist.", function ()
         {
             const trie = new StringKeyTrie(Object.entries(map));
             const prefixes = Object
@@ -66,7 +46,7 @@ module.exports = function ()
 
     describe("getPrefixMap", function ()
     {
-        it("should work", function ()
+        it("should work.", function ()
         {
             const trie = new StringKeyTrie(Object.entries(map));
             assert.containsAllDeepKeys(trie.getPrefixMap("/").toRecord(), Object.keys(map));
@@ -75,7 +55,7 @@ module.exports = function ()
 
     describe("set", function ()
     {
-        it("should add elements", function ()
+        it("should add elements.", function ()
         {
             const mapEntires = Object.entries(map);
 
@@ -89,7 +69,7 @@ module.exports = function ()
             });
         });
 
-        it("should sort branches by keys", function ()
+        it("should sort branches by keys.", function ()
         {
             const trie = new StringKeyTrie(Object.entries(map));
             assert.deepStrictEqual(trie.getPrefixMap("/").toRecord(), sortedMap);
@@ -100,7 +80,7 @@ module.exports = function ()
     {
         const trie = new StringKeyTrie(Object.entries(map));
 
-        it("should delete nodes", function ()
+        it("should delete nodes.", function ()
         {
             const deleteResults = [];
             Object.keys(map).forEach(function (key)
@@ -112,71 +92,14 @@ module.exports = function ()
         });
     });
 
-    describe("clear", function ()
+    /**
+     *  @param {[string, any]} l
+     *  @param {[string, any]} r
+     */
+    function _comparePairs(l, r)
     {
-        it("should delete all", function ()
-        {
-            const trie = new StringKeyTrie(Object.entries(map));
-            trie.clear();
-            assert.equal(trie.size, 0);
-        });
-    });
-
-    describe("entries", function ()
-    {
-        it("should iterate key-value pairs in sorted order", function ()
-        {
-            const trie = new StringKeyTrie(Object.entries(map));
-            const pairs = [];
-            for(const pair of trie.entries())
-            {
-                pairs.push(pair);
-            }
-            assert.deepStrictEqual(pairs, Object.entries(sortedMap));
-        });
-    });
-
-    describe("keys", function ()
-    {
-        it("should iterate key-value pairs in sorted order", function ()
-        {
-            const trie = new StringKeyTrie(Object.entries(map));
-            const pairs = [];
-            for(const pair of trie.keys())
-            {
-                pairs.push(pair);
-            }
-            assert.deepStrictEqual(pairs, Object.keys(sortedMap));
-        });
-    });
-
-    describe("values", function ()
-    {
-        it("should iterate key-value pairs in sorted order", function ()
-        {
-            const trie = new StringKeyTrie(Object.entries(map));
-            const pairs = [];
-            for(const pair of trie.values())
-            {
-                pairs.push(pair);
-            }
-            assert.deepStrictEqual(pairs, Object.values(sortedMap));
-        });
-    });
-
-    describe("Symbol.iterator", function ()
-    {
-        it("should iterate key-value pairs in sorted order", function ()
-        {
-            const trie = new StringKeyTrie(Object.entries(map));
-            const pairs = [];
-            for(const pair of trie)
-            {
-                pairs.push(pair);
-            }
-            assert.deepStrictEqual(pairs, Object.entries(sortedMap));
-        });
-    });
+        return l[0].localeCompare(r[0]);
+    }
 
     /**
      *  @template T

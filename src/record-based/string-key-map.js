@@ -1,7 +1,8 @@
 var kapheinJsTypeTrait = require("kaphein-js-type-trait");
-var isIterable = kapheinJsTypeTrait.isIterable;
+var isDefinedAndNotNull = kapheinJsTypeTrait.isDefinedAndNotNull;
 var isString = kapheinJsTypeTrait.isString;
 
+var forOf = require("../for-of").forOf;
 var _mapToJSON = require("../to-json-impl")._mapToJSON;
 var isSymbolSupported = require("../is-symbol-supported").isSymbolSupported;
 var ValueIterator = require("./value-iterator").ValueIterator;
@@ -20,9 +21,10 @@ module.exports = (function ()
         this.clear();
 
         /** @type {Iterable<[string, T]>} */var iterable = arguments[0];
-        if(isIterable(iterable))
+        if(isDefinedAndNotNull(iterable))
         {
-            Array.from(iterable).forEach(
+            forOf(
+                iterable,
                 /**
                  *  @this {StringKeyMap<T>}
                  */

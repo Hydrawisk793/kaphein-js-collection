@@ -4,9 +4,9 @@ var isIterable = kapheinJsTypeTrait.isIterable;
 var isFunction = kapheinJsTypeTrait.isFunction;
 
 var _mapToJSON = require("../to-json-impl")._mapToJSON;
-var forOf = require("../utils").forOf;
+var forOf = require("../for-of").forOf;
 var RbTreeMap = require("../rb-tree").RbTreeMap;
-var StringKeyMap = require("../record-wrapper").StringKeyMap;
+var StringKeyMap = require("../record-based").StringKeyMap;
 var isSymbolSupported = require("../is-symbol-supported").isSymbolSupported;
 
 module.exports = (function ()

@@ -1,12 +1,196 @@
-const { RbTreeSet } = require("../../src");
+const { expect } = require("chai");
+
+const {
+    RbTreeSet,
+    RbTreeSearchTarget,
+} = require("../../src");
+const {
+    nextInteger,
+    nextIntegers,
+    compareNumber,
+} = require("../utils.test");
+const setCommon = require("./set-common.test");
 
 module.exports = function ()
 {
-    describe("RbTreeSet", function ()
+    const elements = [
+        10,
+        5,
+        1,
+        3,
+        7,
+    ];
+
+    (setCommon.bind(this))(RbTreeSet, [compareNumber], compareNumber, elements, "RbTreeSet");
+
+    describe("has", function ()
     {
-        it("test", function ()
+        it("should have all elements provided on the construction.", function ()
         {
-            testRbTreeSet();
+            const set = new RbTreeSet(elements, compareNumber);
+
+            for(let i of elements)
+            {
+                expect(set.has(i)).to.equal(true);
+            }
+        });
+    });
+
+    describe("add", function ()
+    {
+        it("should add a new element.", function ()
+        {
+            const set = new RbTreeSet(elements, compareNumber);
+            const elem = 8;
+            set.add(elem);
+            expect(set.has(elem)).to.equal(true);
+            expect(set.size).to.equal(elements.length + 1);
+        });
+
+        it("should not add a duplicate element.", function ()
+        {
+            const set = new RbTreeSet(elements, compareNumber);
+            const elem = elements[0];
+            set.add(elem);
+            expect(set.has(elem)).to.equal(true);
+            expect(set.size).to.equal(elements.length);
+        });
+    });
+
+    describe("delete", function ()
+    {
+        it("should delete an element.", function ()
+        {
+            const set = new RbTreeSet(elements, compareNumber);
+            const elem = elements[0];
+            const result = set["delete"](elem);
+            expect(result).to.equal(true);
+            expect(set.has(elem)).to.equal(false);
+            expect(set.size).to.equal(elements.length - 1);
+        });
+
+        it("should return false on trying to a not existing element.", function ()
+        {
+            const set = new RbTreeSet(elements, compareNumber);
+            const elem = 20;
+            const result = set["delete"](elem);
+            expect(result).to.equal(false);
+            expect(set.has(elem)).to.equal(false);
+            expect(set.size).to.equal(elements.length);
+        });
+    });
+
+    describe("findValue", function ()
+    {
+        it("should find a pair whose key is equal to the specified key.", function ()
+        {
+            const set = new RbTreeSet(elements, compareNumber);
+            expect(set.findValue(99, RbTreeSearchTarget.equal)).to.be.undefined;
+            expect(set.findValue(elements[3], RbTreeSearchTarget.equal)).to.equal(elements[3]);
+        });
+
+        it("should find a pair whose key is less than the specified key.", function ()
+        {
+            const set = new RbTreeSet(elements, compareNumber);
+            expect(set.findValue(3, RbTreeSearchTarget.less)).to.equal(1);
+            expect(set.findValue(2, RbTreeSearchTarget.less)).to.equal(1);
+        });
+
+        it("should find a pair whose key is less than or equal to the specified key.", function ()
+        {
+            const set = new RbTreeSet(elements, compareNumber);
+            expect(set.findValue(3, RbTreeSearchTarget.lessOrEqual)).to.equal(3);
+            expect(set.findValue(2, RbTreeSearchTarget.lessOrEqual)).to.equal(1);
+        });
+
+        it("should find a pair whose key is greater than the specified key.", function ()
+        {
+            const set = new RbTreeSet(elements, compareNumber);
+            expect(set.findValue(5, RbTreeSearchTarget.greater)).to.equal(7);
+            expect(set.findValue(6, RbTreeSearchTarget.greater)).to.equal(7);
+        });
+
+        it("should find a pair whose key is greater than or equal to the specified key.", function ()
+        {
+            const set = new RbTreeSet(elements, compareNumber);
+            expect(set.findValue(5, RbTreeSearchTarget.greaterOrEqual)).to.equal(5);
+            expect(set.findValue(6, RbTreeSearchTarget.greaterOrEqual)).to.equal(7);
+        });
+    });
+
+    describe("getFirst", function ()
+    {
+        it("should return the first pair.", function ()
+        {
+            const set = new RbTreeSet(elements, compareNumber);
+            expect(set.getFirst()).to.deep.equal((elements.sort(compareNumber))[0]);
+            set.clear();
+            expect(set.getFirst()).to.be.undefined;
+        });
+    });
+
+    describe("getLast", function ()
+    {
+        it("should return the last pair.", function ()
+        {
+            const set = new RbTreeSet(elements, compareNumber);
+            expect(set.getLast()).to.deep.equal((elements.sort(compareNumber))[elements.length - 1]);
+            set.clear();
+            expect(set.getLast()).to.be.undefined;
+        });
+    });
+
+    describe("Stress test", function ()
+    {
+        it("should be sane.", function ()
+        {
+            this.timeout(0);
+
+            const iterationCount = (8192 << 4);
+
+            const iter = {
+                _set : new RbTreeSet(null, compareNumber),
+                _i : 0,
+                _count : iterationCount,
+                next : function next()
+                {
+                    const result = {
+                        done : this._i >= this._count,
+                        value : void 0
+                    };
+
+                    if(!result.done)
+                    {
+                        result.value = testTreeSetWithRandomIntegers(
+                            this._set,
+                            1, 80,
+                            0, 99
+                        );
+                        result.value.loop = this._i;
+
+                        ++this._i;
+                    }
+
+                    return result;
+                }
+            };
+            if("function" === typeof Symbol && "iterator" in Symbol)
+            {
+                iter[Symbol.iterator] = function ()
+                {
+                    return this;
+                };
+            }
+
+            for(let r of iter)
+            {
+                if(r.error)
+                {
+                    console.error("RbTreeSet", r.loop, r.output);
+
+                    throw r.error;
+                }
+            }
         });
     });
 
@@ -14,34 +198,9 @@ module.exports = function ()
      *  @param {number} min
      *  @param {number} max
      */
-    function nextInt(min, max)
-    {
-        return Math.floor((Math.random() * (max - min))) + min;
-    }
-
-    /**
-     *  @param {number} min
-     *  @param {number} max
-     */
     function nextSize(min, max)
     {
-        return nextInt(min, max);
-    }
-
-    /**
-     *  @param {number} count
-     *  @param {number} min
-     *  @param {number} max
-     */
-    function generateRandomIntegers(count, min, max)
-    {
-        var integers = [];
-        for(var i = 0; i < count; ++i)
-        {
-            integers.push(nextInt(min, max));
-        }
-
-        return integers;
+        return nextInteger(min, max);
     }
 
     /**
@@ -163,89 +322,8 @@ module.exports = function ()
     )
     {
         var inputItemCount = nextSize(minItemCount, maxItemCount);
-        var inputItems = generateRandomIntegers(inputItemCount, minIntValue, maxIntValue);
+        var inputItems = nextIntegers(inputItemCount, minIntValue, maxIntValue);
 
         return testTreeSetWithIntegerArray(set, inputItems);
-    }
-
-    function testRbTreeSet()
-    {
-        var interval = 5;
-
-        var iter = {
-            _set : new RbTreeSet(
-                null,
-                function (l, r)
-                {
-                    return l - r;
-                }
-            ),
-
-            _i : 0,
-
-            _iterationCount : 1024, // (8192 << 4),
-
-            next : function next()
-            {
-                var result = {
-                    done : this._i >= this._iterationCount,
-                    value : void 0
-                };
-
-                if(!result.done)
-                {
-                    result.value = testTreeSetWithRandomIntegers(
-                        this._set,
-                        1, 80,
-                        0, 99
-                    );
-                    result.value.loop = this._i;
-
-                    ++this._i;
-                }
-
-                return result;
-            }
-        };
-
-        if(Symbol && "function" === typeof Symbol)
-        {
-            iter[Symbol.iterator] = function ()
-            {
-                return this;
-            };
-        }
-
-        var timerId = setInterval(
-            function ()
-            {
-                var result = iter.next();
-                if(result.done)
-                {
-                    // console.log("DONE!");
-
-                    clearInterval(timerId);
-                }
-                else
-                {
-                    if(null !== result.value.error)
-                    {
-                        console.error("===========================");
-                        console.error("loop", result.value.loop);
-                        console.error(result.value.output);
-                        console.error(result.value.error.message);
-                        console.error("===========================");
-
-                        clearInterval(timerId);
-                    }
-                    // else if(result.value.loop % 256 === 0) {
-                    //     console.log("loop", result.value.loop);
-                    // }
-                }
-            },
-            interval
-        );
-
-        return timerId;
     }
 };

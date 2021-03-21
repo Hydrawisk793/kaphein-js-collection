@@ -1,4 +1,4 @@
-import { StringKeyMap } from "../record-wrapper";
+import { StringKeyMap } from "../record-based";
 import { Trie } from "./trie";
 
 export declare class StringKeyTrie<V> implements Trie<string, V>
