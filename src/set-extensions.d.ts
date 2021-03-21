@@ -11,7 +11,7 @@ export declare function exclude<T>(
 export declare function difference<T>(
     setObj : Set<T>,
     other : Set<T>
-) : Iterable<T>;
+) : T[];
 
 export declare function intersection<T>(
     setObj : Set<T>,

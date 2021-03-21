@@ -52,7 +52,7 @@ module.exports = (function ()
      *  @template T
      *  @param {Set<T>} setObj
      *  @param {Set<T>} other
-     *  @returns {Iterable<T>}
+     *  @returns {T[]}
      */
     function difference(setObj, other)
     {
