@@ -1,3 +1,5 @@
+require("core-js");
+
 describe("kaphein-js-collection", function ()
 {
     describe("ArrayQueue", require("./suites/array-queue.test").bind(this));
