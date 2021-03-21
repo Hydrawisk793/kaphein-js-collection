@@ -16,4 +16,4 @@ export declare function difference<T>(
 export declare function intersection<T>(
     setObj : Set<T>,
     other : Set<T>
-) : Iterable<T>;
+) : T[];
