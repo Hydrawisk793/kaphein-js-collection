@@ -12,6 +12,8 @@ export declare interface Queue<T>
 
     dequeue() : T | undefined;
 
+    flush() : T[];
+
     clear() : void;
 }
 

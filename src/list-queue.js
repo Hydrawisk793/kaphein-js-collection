@@ -103,6 +103,19 @@ module.exports = (function ()
             return element;
         },
 
+        flush : function flush()
+        {
+            var elems = [];
+            this.forEach(/** @this {typeof elems} */function (elem)
+            {
+                this.push(elem);
+            }, elems);
+
+            this.clear();
+
+            return elems;
+        },
+
         clear : function clear()
         {
             this._head = null;

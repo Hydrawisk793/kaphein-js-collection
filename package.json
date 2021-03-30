@@ -1,6 +1,6 @@
 {
     "name": "kaphein-js-collection",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "description": "A set of collection classes and its utilities.",
     "author": "Hydrawisk793 <hyw793@gmail.com>",
     "license": "MIT",
@@ -30,11 +30,10 @@
     },
     "bundledDependencies": [],
     "dependencies": {
-        "kaphein-js-type-trait": "~0.1.1",
-        "kaphein-ts-type-utils": "~0.1.0"
+        "kaphein-js-type-trait": ">=0.1.1 <0.3.0",
+        "kaphein-ts-type-utils": ">=0.1.0 <0.3.0"
     },
     "devDependencies": {
-        "bluebird": "^3.7.2",
         "chai": "^4.3.3",
         "copy-webpack-plugin": "^8.0.0",
         "core-js": "^3.9.1",

@@ -20,6 +20,8 @@ export declare class ListQueue<T> implements IterableQueue<T>
 
     public dequeue() : T | undefined;
 
+    public flush() : T[];
+
     public clear() : void;
 
     public forEach(

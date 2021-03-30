@@ -79,6 +79,18 @@ module.exports = (
             });
         });
 
+        describe("flush", function ()
+        {
+            it("should dequeue and return all values.", function ()
+            {
+                /** @type {QueueType} */const q = Reflect.construct(ctor, [sampleArr, ...ctorArgs]);
+                const elems = q.flush();
+
+                expect(elems).to.deep.equal(sampleArr);
+                expect(q.size).to.equal(0);
+            });
+        });
+
         describe("clear", function ()
         {
             it("should delete all values.", function ()
