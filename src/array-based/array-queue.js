@@ -78,6 +78,15 @@ module.exports = (function ()
             return elem;
         },
 
+        flush : function flush()
+        {
+            var elems = this._elements;
+
+            this.clear();
+
+            return elems;
+        },
+
         clear : function clear()
         {
             this._elements = [];

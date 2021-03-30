@@ -17,6 +17,8 @@ export declare class ArrayQueue<T> implements IterableQueue<T>
     ) : void;
 
     public dequeue() : T | undefined;
+    
+    public flush() : T[];
 
     public clear() : void;
 
