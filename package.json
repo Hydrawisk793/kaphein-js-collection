@@ -31,7 +31,7 @@
     "bundledDependencies": [],
     "dependencies": {
         "kaphein-js-type-trait": ">=0.1.1 <0.3.0",
-        "kaphein-ts-type-utils": "~0.1.0"
+        "kaphein-ts-type-utils": ">=0.1.0 <0.3.0"
     },
     "devDependencies": {
         "chai": "^4.3.3",
