@@ -1,5 +1,6 @@
 var kapheinJsTypeTrait = require("kaphein-js-type-trait");
 var isIterable = kapheinJsTypeTrait.isIterable;
+var isArray = kapheinJsTypeTrait.isArray;
 
 var forOf = require("../for-of").forOf;
 var isSymbolSupported = require("../is-symbol-supported").isSymbolSupported;
@@ -42,6 +43,26 @@ module.exports = (function ()
         constructor : ArrayQueue,
 
         size : 0,
+
+        attach : function attach(src)
+        {
+            if(!isArray(src))
+            {
+                throw new TypeError("'src' must be an array.");
+            }
+
+            this._elements = src;
+            this.size = src.length;
+        },
+
+        detach : function detach()
+        {
+            var elems = this._elements;
+
+            this.clear();
+
+            return elems;
+        },
 
         isEmpty : function isEmpty()
         {
@@ -152,6 +173,14 @@ module.exports = (function ()
         ArrayQueue.prototype[Symbol.iterator] = ArrayQueue.prototype.values;
 
         ArrayQueue.prototype[Symbol.toStringTag] = "ArrayQueue";
+    }
+
+    ArrayQueue.wrap = function wrap(src)
+    {
+        var q = new ArrayQueue();
+        q.attach(src);
+
+        return q;
     }
 
     return {

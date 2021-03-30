@@ -2,9 +2,19 @@ import { IterableQueue } from "../queue";
 
 export declare class ArrayQueue<T> implements IterableQueue<T>
 {
+    public static wrap<T>(
+        src : T[]
+    ) : ArrayQueue<T>;
+
     public constructor(
         iterable? : Iterable<T>
     );
+
+    public attach(
+        src : T[]
+    ) : void;
+
+    public detach() : T[];
 
     public readonly size : number;
 
